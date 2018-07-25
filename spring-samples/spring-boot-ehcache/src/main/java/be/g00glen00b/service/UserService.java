@@ -28,16 +28,18 @@ public class UserService {
     }
 
     @CacheEvict(value= "users", key="#id")
-    public void clearbyID(int id) {
+    public User clearbyID(int id) {
         for (User u: users){
             if(u.getId() == id){
                 users.remove(u);
                 logger.info("User deleted");
+                return u;
             }
         }
+        return null;
     }
 
-    @CachePut (value= "users")// , key="#id")
+    @CachePut (value= "users", key="#id")
     public User addUser(int id, String f_name, String l_name){
         User newuser = new User(id,f_name, l_name);
         users.add(newuser);
